@@ -32,11 +32,15 @@
     "msw": "^1.1.0",
     "svelte": "^3.55.1",
     "svelte-check": "^2.10.3",
-    "svelte-navigator": "^3.2.2",
+    "svelte-router-spa": "^6.0.3",
+    "svelte-select": "^5.4.0",
     "sveltestrap": "^5.10.0",
     "tslib": "^2.5.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vitest": "^0.29.1"
+  },
+  "dependencies": {
+    "bytemd": "^1.20.2"
   }
 }
