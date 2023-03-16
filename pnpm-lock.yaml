@@ -14,6 +14,7 @@ specifiers:
   '@testing-library/svelte': ^3.2.2
   '@testing-library/user-event': ^14.4.3
   '@tsconfig/svelte': ^3.0.0
+  '@types/js-cookie': ^3.0.3
   '@vitest/coverage-c8': ^0.29.1
   '@vitest/ui': ^0.29.1
   axios: ^1.3.4
@@ -26,8 +27,10 @@ specifiers:
   msw: ^1.1.0
   svelte: ^3.55.1
   svelte-check: ^2.10.3
+  svelte-paginate: ^0.1.0
   svelte-router-spa: ^6.0.3
   svelte-select: ^5.4.0
+  svelte-toasts: ^1.1.2
   sveltestrap: ^5.10.0
   tslib: ^2.5.0
   typescript: ^4.9.3
@@ -41,7 +44,6 @@ dependencies:
   '@bytemd/plugin-gfm': 1.20.2_bytemd@1.20.2
   '@bytemd/plugin-highlight': 1.20.2_bytemd@1.20.2
   bytemd: 1.20.2
-  highlight.js: 11.7.0
 
 devDependencies:
   '@playwright/experimental-ct-svelte': 1.31.1_svelte@3.55.1
@@ -52,18 +54,22 @@ devDependencies:
   '@testing-library/svelte': 3.2.2_svelte@3.55.1
   '@testing-library/user-event': 14.4.3
   '@tsconfig/svelte': 3.0.0
+  '@types/js-cookie': 3.0.3
   '@vitest/coverage-c8': 0.29.1_vitest@0.29.1
   '@vitest/ui': 0.29.1
   axios: 1.3.4
   bootstrap: 5.2.3
+  highlight.js: 11.7.0
   js-cookie: 3.0.1
   jsdom: 21.1.0
   jwt-decode: 3.1.2
   msw: 1.1.0_typescript@4.9.5
   svelte: 3.55.1
   svelte-check: 2.10.3_svelte@3.55.1
+  svelte-paginate: 0.1.0
   svelte-router-spa: 6.0.3_svelte@3.55.1
   svelte-select: 5.4.0
+  svelte-toasts: 1.1.2
   sveltestrap: 5.10.0_svelte@3.55.1
   tslib: 2.5.0
   typescript: 4.9.5
@@ -650,6 +656,10 @@ packages:
     dependencies:
       expect: 29.4.3
       pretty-format: 29.4.3
+    dev: true
+
+  /@types/js-cookie/3.0.3:
+    resolution: {integrity: sha512-Xe7IImK09HP1sv2M/aI+48a20VX+TdRJucfq4vfRVy6nWN8PYPOEnlMRSgxJAgYQIXJVL8dZ4/ilAM7dWNaOww==}
     dev: true
 
   /@types/js-levenshtein/1.1.1:
@@ -1798,7 +1808,6 @@ packages:
   /highlight.js/11.7.0:
     resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
     engines: {node: '>=12.0.0'}
-    dev: false
 
   /html-encoding-sniffer/3.0.0:
     resolution: {integrity: sha512-oWv4T4yJ52iKrufjnyZPkrN0CH3QnrUqdB6In1g5Fe1mia8GmF36gnfNySxoZtxD5+NmYw1EElVXiBk93UeskA==}
@@ -3558,6 +3567,10 @@ packages:
       svelte: 3.55.1
     dev: true
 
+  /svelte-paginate/0.1.0:
+    resolution: {integrity: sha512-SHD9YWj3S+qu7gTeaOox9ZA2S+iiNOp4VKnoGKvF6vm2bzp9gMUihwYunDoYXl0z6OLvZ1MpaHt27/sNx/t/UA==}
+    dev: true
+
   /svelte-preprocess/4.10.7_4x7phaipmicbaooxtnresslofa:
     resolution: {integrity: sha512-sNPBnqYD6FnmdBrUmBCaqS00RyCsCpj2BG58A1JBswNF7b0OKviwxqVrOL/CKyJrLSClrSeqQv5BXNg2RUbPOw==}
     engines: {node: '>= 9.11.2'}
@@ -3623,6 +3636,10 @@ packages:
     dependencies:
       '@floating-ui/dom': 1.2.3
       svelte-floating-ui: 1.2.8
+    dev: true
+
+  /svelte-toasts/1.1.2:
+    resolution: {integrity: sha512-m+yL4eEKXyJoyjTYaH1j1GFwF0Pi8YDqnVfwWPDmwi4712iZesv+TNCmToSNlav3R5Vkmc8ZBRkT8DOcu3sywQ==}
     dev: true
 
   /svelte/3.55.1:

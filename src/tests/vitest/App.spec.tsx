@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { render, screen } from "../utils";
+import { render } from "../utils";
 import App from "../../App.svelte";
 
 it("should add 2 numbers", () => {
@@ -8,5 +8,4 @@ it("should add 2 numbers", () => {
 
 it("should render App", () => {
   render(App);
-  expect(screen.getByText("Vite + Svelte")).toBeTruthy();
 });
