@@ -211,20 +211,20 @@
       </div>
     </div>
 
-    <div class="col-12">
-      <div class="card p-4">
-        <h3>Favourite Posts ({profile.favourites_count}):</h3>
-        TODO:
-      </div>
-    </div>
-
     {#if isCurrentUser}
       <div class="col-12">
         <div class="card p-4">
-          <h3>Created Posts ({profile.posts_count}):</h3>
+          <h3>Favourite Posts ({profile.favourites_count}):</h3>
           TODO:
         </div>
       </div>
     {/if}
+
+    <div class="col-12">
+      <div class="card p-4">
+        <h3>Created Posts ({profile.posts_count}):</h3>
+        TODO:
+      </div>
+    </div>
   </div>
 {/if}
