@@ -1,9 +1,9 @@
 <script lang="ts">
   import { createQuery } from "@tanstack/svelte-query";
-  import { LightPaginationNav } from "svelte-paginate";
   import Select from "svelte-select";
   import PostsApi, { type PostFiltersEventDetail, type PostsFilters } from "../../api/posts";
   import PostsFiltersModal from "../../components/modals/PostsFiltersModal.svelte";
+  import Pagination from "../../components/pagination/Pagination.svelte";
   import PostListItem from "../../components/posts/PostListItem.svelte";
 
   const pageSizes = [
@@ -155,12 +155,10 @@
 
   {#if total}
     <nav class="card-footer p-0 mb-3">
-      <LightPaginationNav
+      <Pagination
         totalItems={total}
         pageSize={pageSize.value}
         currentPage={page}
-        showStepOptions
-        limit={1}
         on:setPage={(e) => page = e.detail.page}
       />
     </nav>

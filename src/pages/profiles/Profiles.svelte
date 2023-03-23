@@ -4,6 +4,7 @@
   import type { CurrentRoute } from "svelte-router-spa/types/components/route";
   import Select from "svelte-select";
   import ProfilesApi, { type ProfilesFilters } from "../../api/profiles";
+  import Pagination from "../../components/pagination/Pagination.svelte";
   import ProfileListItem from "../../components/profiles/ProfileListItem.svelte";
 
   export let currentRoute: CurrentRoute;
@@ -95,12 +96,10 @@
 
   {#if total}
     <nav class="card-footer p-0">
-      <LightPaginationNav
+      <Pagination
         totalItems={total}
         pageSize={pageSize.value}
         currentPage={page}
-        showStepOptions
-        limit={1}
         on:setPage={(e) => page = e.detail.page}
       />
     </nav>
