@@ -30,6 +30,7 @@ export interface Post {
   is_favourited: boolean;
 
   favourites_count: number;
+  tags: string[];
 }
 
 export interface ListPost {
@@ -41,7 +42,7 @@ export interface ListPost {
   author: ProfileEmbedded;
   created_at: string;
   updated_at: string;
-  tags: Tag[];
+  tags: string[];
 }
 
 export interface Comment {
