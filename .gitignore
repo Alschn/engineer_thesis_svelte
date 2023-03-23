@@ -33,3 +33,7 @@ lcov
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+.env
+.env.*
+**/env
