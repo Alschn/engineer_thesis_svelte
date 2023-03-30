@@ -157,11 +157,11 @@
 
         {#if $auth.isAuthenticated && post.author.username !== $auth.user.username}
           {#if post.is_favourited}
-            <button class="btn btn-outline-danger" on:click={$unfavouriteMutation.mutate}>
+            <button class="btn btn-outline-danger" on:click={() => $unfavouriteMutation.mutate()}>
               Remove from favourites
             </button>
           {:else}
-            <button class="btn btn-outline-primary" on:click={$favouriteMutation.mutate}>
+            <button class="btn btn-outline-primary" on:click={() => $favouriteMutation.mutate()}>
               Add to favourites
             </button>
           {/if}

@@ -106,7 +106,7 @@
     {/if}
 
     {#if $commentsQuery.hasNextPage}
-      <button class="btn btn-outline-primary" on:click={$commentsQuery.fetchNextPage}>
+      <button class="btn btn-outline-primary" on:click={() => $commentsQuery.fetchNextPage()}>
         Load more...
       </button>
     {/if}
