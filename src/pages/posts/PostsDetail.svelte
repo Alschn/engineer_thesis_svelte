@@ -44,7 +44,7 @@
       isEditing = false;
       client.setQueryData(
         ["posts", postSlug],
-        old => ({ ...old, data: { ...old.data, body: data.body } })
+        (old: any) => ({ ...old, data: { ...old.data, body: data.body } })
       );
       setContext("post", data);
     },
@@ -70,7 +70,7 @@
       toasts.success("Post added to favourites");
       client.setQueryData(
         ["posts", postSlug],
-        old => ({
+        (old: any) => ({
           ...old, data: {
             ...old.data,
             is_favourited: true,
@@ -93,7 +93,7 @@
       toasts.success("Post removed from favourites");
       client.setQueryData(
         ["posts", postSlug],
-        old => ({
+        (old: any) => ({
           ...old,
           data: {
             ...old.data,

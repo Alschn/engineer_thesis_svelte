@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createQuery } from "@tanstack/svelte-query";
-  import { LightPaginationNav } from "svelte-paginate";
   import type { CurrentRoute } from "svelte-router-spa/types/components/route";
   import Select from "svelte-select";
   import ProfilesApi, { type ProfilesFilters } from "../../api/profiles";
@@ -83,7 +82,7 @@
       <p>Something went wrong...</p>
     {:else if $query.isSuccess}
       <div class="row row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
-        {#each profiles as profile}
+        {#each profiles as profile (profile.id)}
           <div class="gy-3">
             <ProfileListItem {profile}/>
           </div>

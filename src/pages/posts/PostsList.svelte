@@ -11,6 +11,7 @@
     { value: 20, label: 20 },
     { value: 50, label: 50 },
     { value: 100, label: 100 },
+    { value: 1000, label: 1000 }
   ];
   const orderingOptions = [
     { value: "created_at", label: "Created (ascending)" },
@@ -20,7 +21,7 @@
   ];
 
   let page = 1;
-  let pageSize = { value: 10, label: 10 };
+  let pageSize = { value: 1000, label: 1000 };
   let ordering = { value: "-created_at", label: "Created (descending)" };
   let search = "";
 
@@ -146,7 +147,7 @@
   <p>Something went wrong...</p>
 {:else if $query.isSuccess}
   <article class="d-flex flex-column gap-3 mb-3">
-    {#each posts as post}
+    {#each posts as post (post.id)}
       <PostListItem {post}/>
     {:else}
       <p>No posts found</p>

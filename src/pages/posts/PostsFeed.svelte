@@ -102,7 +102,7 @@
   <p>Something went wrong...</p>
 {:else if $query.isSuccess}
   <div class="d-flex flex-column gap-3">
-    {#each posts as post}
+    {#each posts as post (post.id)}
       <PostListItem {post}/>
     {/each}
   </div>

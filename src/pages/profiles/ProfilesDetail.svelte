@@ -38,7 +38,7 @@
   const followMutation = createMutation({
     mutationFn: () => ProfilesApi.follow(username),
     onSuccess: ({ data }) => {
-      client.setQueryData(["profiles", username], old => ({
+      client.setQueryData(["profiles", username], (old: any) => ({
         ...old,
         data: {
           ...old.data,
@@ -71,7 +71,7 @@
   const unfollowMutation = createMutation({
     mutationFn: () => ProfilesApi.unfollow(username),
     onSuccess: ({ data }) => {
-      client.setQueryData(["profiles", username], old => ({
+      client.setQueryData(["profiles", username], (old: any) => ({
         ...old,
         data: {
           ...old.data,
@@ -175,7 +175,7 @@
       <div class="card p-4">
         <h3>Followers ({profile.followers_count}):</h3>
         <div class="d-flex flex-column gap-2" style="height: 300px; overflow-y: auto">
-          {#each followers as follower}
+          {#each followers as follower (follower.id)}
             <div class="d-flex align-items-center">
               <img
                 width="50" height="50"
@@ -195,7 +195,7 @@
       <div class="card p-4">
         <h3>Following ({profile.followed_count}):</h3>
         <div class="d-flex flex-column gap-2" style="height: 300px; overflow-y: auto">
-          {#each followed as followee}
+          {#each followed as followee (followee.id)}
             <div class="d-flex align-items-center">
               <img
                 width="50" height="50"
