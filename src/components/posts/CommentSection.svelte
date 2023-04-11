@@ -6,6 +6,7 @@
   import { Card, CardBody, CardHeader, CardTitle } from "sveltestrap";
   import PostsApi, { type PostCommentsFilters } from "../../api/posts";
   import type { Post } from "../../api/types";
+  import { getNextPageParam } from "../../utils/tanstack-query";
   import CommentAddForm from "../forms/CommentAddForm.svelte";
   import CommentListItem from "./CommentListItem.svelte";
 
@@ -28,13 +29,7 @@
     queryFn: ({ queryKey, pageParam = 1 }) => PostsApi.getAllComments(
       queryKey[1] as string, { page: pageParam, ...queryKey[3] as PostCommentsFilters }
     ),
-    getNextPageParam: (lastPage) => {
-      const nextPage = lastPage.data.next;
-      if (!nextPage) return undefined;
-      const url = new URL(nextPage);
-      const parsed = parseInt(url.searchParams.get("page"));
-      return !isNaN(parsed) ? parsed : undefined;
-    }
+    getNextPageParam: getNextPageParam
   });
 
   $: comments = $commentsQuery.data?.pages.flatMap(page => page.data.results) || [];
