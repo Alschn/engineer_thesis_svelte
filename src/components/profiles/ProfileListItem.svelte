@@ -79,7 +79,7 @@
         <button
           class="btn btn-sm btn-outline-danger"
           disabled={$unfollowMutation.isLoading}
-          on:click={() => $unfollowMutation.mutate}
+          on:click={() => $unfollowMutation.mutate()}
         >
           Unfollow {profile.username}
         </button>
@@ -87,7 +87,7 @@
         <button
           class="btn btn-sm btn-outline-primary"
           disabled={$followMutation.isLoading}
-          on:click={() => $followMutation.mutate}
+          on:click={() => $followMutation.mutate()}
         >
           Follow {profile.username}
         </button>
