@@ -1,14 +1,9 @@
 <script>
-  import { Card, CardBody, CardHeader, CardTitle } from "sveltestrap";
   import RegisterForm from "../../components/forms/RegisterForm.svelte";
+  import AuthCard from "../../components/cards/AuthCard.svelte";
 </script>
 
-<Card>
-  <CardHeader>
-    <CardTitle>Register</CardTitle>
-  </CardHeader>
-
-  <CardBody class="p-4">
-    <RegisterForm/>
-  </CardBody>
-</Card>
+<AuthCard>
+  <h1 slot="title">Register</h1>
+  <RegisterForm/>
+</AuthCard>
