@@ -28,9 +28,9 @@ export interface Post {
   created_at: string;
   updated_at: string;
   is_favourited: boolean;
-
   favourites_count: number;
-  tags: string[];
+  tags: Tag[];
+  thumbnail: string;
 }
 
 export interface ListPost {
@@ -42,14 +42,15 @@ export interface ListPost {
   author: ProfileEmbedded;
   created_at: string;
   updated_at: string;
-  tags: string[];
+  tags: Tag[];
+  thumbnail: string;
 }
 
 export interface Comment {
   id: number;
   body: string;
   post: number;
-  author: number;
+  author: ProfileEmbedded;
   created_at: string;
   updated_at: string;
 }
@@ -92,6 +93,7 @@ export interface Tag {
   id: number;
   tag: string;
   slug: string;
+  color: string;
 }
 
 export interface SelectOption<T = string> {
