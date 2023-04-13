@@ -1,29 +1,30 @@
 <script lang="ts">
-  import { Card, CardBody, CardHeader, CardLink, CardSubtitle, CardText, CardTitle } from "sveltestrap";
+  import { Card, CardBody, CardHeader, CardLink, CardText } from "sveltestrap";
   import type { ListPost } from "../../api/types";
+  import PostAuthorMeta from "./PostAuthorMeta.svelte";
+  import TagBadge from "./TagBadge.svelte";
 
   export let post: ListPost;
-
-  const createdAt = new Date(post.created_at);
 </script>
 
-<Card>
+<Card class="shadow border-0" style="height: 100%">
+  <img
+    src={post.thumbnail}
+    alt="Thumbnail"
+    class="rounded-top"
+    height="300"
+  />
   <CardHeader>
-    <CardTitle>
+    <CardLink href="/posts/{post.slug}" class="fs-4 fw-bold text-dark text-decoration-none">
       {post.title}
-    </CardTitle>
-    <CardSubtitle class="mb-2">
-      {post.author.username}
-    </CardSubtitle>
-    <CardSubtitle class="text-muted mb-2">
-      {createdAt.toLocaleString()}
-    </CardSubtitle>
-    <CardLink href="/posts/{post.slug}" class="text-decoration-none">
-      {post.slug}
     </CardLink>
+    <PostAuthorMeta
+      author={post.author}
+      createdAt={post.created_at}
+    />
     <div class="d-flex gap-2 mt-2">
-      {#each post.tags as tag}
-        <span class="badge text-bg-primary">{tag}</span>
+      {#each post.tags as tag (tag.id)}
+        <TagBadge label={tag.tag} color={tag.color}/>
       {/each}
     </div>
   </CardHeader>
@@ -32,4 +33,9 @@
       {post.description}
     </CardText>
   </CardBody>
+  <div class="d-flex justify-content-end px-3 pb-2">
+    <CardLink href="/posts/{post.slug}" class="btn btn-sm btn-dark">
+      Show details
+    </CardLink>
+  </div>
 </Card>

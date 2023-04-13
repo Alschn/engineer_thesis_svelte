@@ -10,7 +10,9 @@
   import PostsApi from "../../api/posts";
   import PostDeleteModal from "../../components/modals/PostDeleteModal.svelte";
   import CommentSection from "../../components/posts/CommentSection.svelte";
+  import PostAuthorMeta from "../../components/posts/PostAuthorMeta.svelte";
   import PostBody from "../../components/posts/PostBody.svelte";
+  import TagBadge from "../../components/posts/TagBadge.svelte";
   import { auth } from "../../stores/auth";
 
   export let currentRoute: CurrentRoute;
@@ -129,56 +131,95 @@
 </script>
 
 {#if $query.isLoading}
-  <div>Loading...</div>
+  <div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 150px)">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 {:else if $query.isError}
-  <div>Something went wrong...</div>
+  <p class="text-danger fw-bold">Something went wrong...</p>
 {:else if $query.isSuccess && post}
-  <Card class="mb-3">
-    <CardHeader>
-      <CardTitle>Title: {post.title}</CardTitle>
-      <CardSubtitle class="mb-1">Description: {post.description}</CardSubtitle>
-      <div class="mb-2">
-        <a href="/profiles/{post.author.username}">
-          Author: {post.author.username}
-        </a>
+  {@const isCurrentUser = $auth.isAuthenticated && $auth.user.username === post.author.username}
+
+  <Card class="shadow-sm rounded mb-4">
+    <CardHeader class="bg-white p-0 pb-3">
+      <div class="d-flex flex-column flex-lg-row gap-3">
+        <img
+          src={post.thumbnail}
+          alt="thumbnail"
+          height="300"
+          class="border"
+        />
+        <div class="d-flex flex-column p-3">
+          <CardTitle class="fs-1 mb-3">
+            Title: {post.title}
+          </CardTitle>
+          <CardSubtitle class="fs-5 mb-3">
+            Description: {post.description}
+          </CardSubtitle>
+          <div class="d-flex align-items-center gap-1 mb-3" style="font-size: 1.1em">
+            <CardSubtitle class="fs-6">Tags:</CardSubtitle>
+            {#each post.tags as tag}
+              <TagBadge label={tag.tag} color={tag.color}/>
+            {/each}
+          </div>
+          <CardSubtitle class="fs-5">Likes: {post.favourites_count}</CardSubtitle>
+          <div class="mb-auto"></div>
+          <PostAuthorMeta
+            author={post.author}
+            createdAt={post.created_at}
+          />
+        </div>
       </div>
-      <div class="d-flex gap-1 mb-2" style="font-size: 1.1em">
-        {#each post.tags as tag}
-          <span class="badge bg-primary">{tag}</span>
-        {/each}
-      </div>
-      <p>Likes: {post.favourites_count}</p>
-      <div class="d-flex justify-content-end gap-2">
-        {#if $auth.isAuthenticated && !isEditing && post.author.username === $auth.user.username}
-          <button class="btn btn-outline-dark" on:click={() => isEditing = true}>
+
+      <div class="d-flex justify-content-end gap-2 px-3">
+        {#if isCurrentUser && !isEditing}
+          <button
+            id="post-edit"
+            class="btn btn-outline-dark"
+            on:click={() => isEditing = true}
+          >
             Edit
           </button>
         {/if}
 
-        {#if $auth.isAuthenticated && post.author.username !== $auth.user.username}
+        {#if !isCurrentUser}
           {#if post.is_favourited}
-            <button class="btn btn-outline-danger" on:click={() => $unfavouriteMutation.mutate()}>
+            <button
+              id="post-unfavourite"
+              class="btn btn-outline-danger"
+              on:click={() => $unfavouriteMutation.mutate()}
+            >
               Remove from favourites
             </button>
           {:else}
-            <button class="btn btn-outline-primary" on:click={() => $favouriteMutation.mutate()}>
+            <button
+              id="post-favourite"
+              class="btn btn-outline-primary"
+              on:click={() => $favouriteMutation.mutate()}
+            >
               Add to favourites
             </button>
           {/if}
         {/if}
 
-        {#if $auth.isAuthenticated && post.author.username === $auth.user.username}
+        {#if isCurrentUser}
           <PostDeleteModal
             {postSlug}
             isOpen={isOpenDeletePostModal}
             toggle={() => isOpenDeletePostModal = !isOpenDeletePostModal}
           />
-          <button class="btn btn-danger" on:click={handleOpenDeletePostModal}>
+          <button
+            id="post-delete"
+            class="btn btn-danger"
+            on:click={handleOpenDeletePostModal}
+          >
             Delete
           </button>
         {/if}
       </div>
     </CardHeader>
+
     <PostBody
       body={post.body}
       handleCancelEdit={() => isEditing = false}

@@ -5,6 +5,7 @@
   import PostsFiltersModal from "../../components/modals/PostsFiltersModal.svelte";
   import Pagination from "../../components/pagination/Pagination.svelte";
   import PostListItem from "../../components/posts/PostListItem.svelte";
+  import PostListItemSkeleton from "../../components/skeletons/PostListItemSkeleton.svelte";
 
   const pageSizes = [
     { value: 10, label: 10 },
@@ -12,17 +13,18 @@
     { value: 50, label: 50 },
     { value: 100, label: 100 },
     { value: 1000, label: 1000 }
-  ];
+  ] as const;
+
   const orderingOptions = [
     { value: "created_at", label: "Created (ascending)" },
     { value: "-created_at", label: "Created (descending)" },
     { value: "updated_at", label: "Updated (ascending)" },
     { value: "-updated_at", label: "Updated (descending)" },
-  ];
+  ] as const;
 
   let page = 1;
-  let pageSize = { value: 1000, label: 1000 };
-  let ordering = { value: "-created_at", label: "Created (descending)" };
+  let pageSize = pageSizes.find(s => s.value === 50);
+  let ordering = orderingOptions.find(o => o.value === "-created_at");
   let search = "";
 
   let timer;
@@ -82,6 +84,8 @@
       appliedFilters = {};
     }
   }
+
+  let isLoading = true;
 </script>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -141,27 +145,33 @@
   </button>
 </div>
 
-{#if $query.isLoading}
-  <p>Loading...</p>
-{:else if $query.isError}
-  <p>Something went wrong...</p>
-{:else if $query.isSuccess}
-  <article class="d-flex flex-column gap-3 mb-3">
-    {#each posts as post (post.id)}
-      <PostListItem {post}/>
-    {:else}
-      <p>No posts found</p>
+<article class="row gy-4 mb-3">
+  {#if $query.isLoading}
+    {#each Array(6) as _, i}
+      <div class="col col-md-6 col-xl-4">
+        <PostListItemSkeleton />
+      </div>
     {/each}
-  </article>
+  {:else if $query.isError}
+    <p class="text-danger fw-bold">Something went wrong...</p>
+  {:else if $query.isSuccess}
+    {#each posts as post (post.id)}
+      <div class="col col-md-6 col-xl-4">
+        <PostListItem {post}/>
+      </div>
+    {:else}
+      <p class="fw-bold">No posts found...</p>
+    {/each}
 
-  {#if total}
-    <nav class="card-footer p-0 mb-3">
-      <Pagination
-        totalItems={total}
-        pageSize={pageSize.value}
-        currentPage={page}
-        on:setPage={(e) => page = e.detail.page}
-      />
-    </nav>
+    {#if total}
+      <nav class="card-footer p-0 mb-3">
+        <Pagination
+          totalItems={total}
+          pageSize={pageSize.value}
+          currentPage={page}
+          on:setPage={(e) => page = e.detail.page}
+        />
+      </nav>
+    {/if}
   {/if}
-{/if}
+</article>

@@ -8,6 +8,7 @@
   import type { Post } from "../../api/types";
   import { getNextPageParam } from "../../utils/tanstack-query";
   import CommentAddForm from "../forms/CommentAddForm.svelte";
+  import CommentListItemSkeleton from "../skeletons/CommentListItemSkeleton.svelte";
   import CommentListItem from "./CommentListItem.svelte";
 
   const { slug: postSlug } = getContext<Post>("post");
@@ -15,9 +16,9 @@
   const commentsOrderingItems = [
     { label: "Sort by: Newest", value: "-created_at" },
     { label: "Sort by: Oldest", value: "created_at" },
-  ];
+  ] as const;
 
-  let commentsOrdering = { value: "-created_at", label: "Sort by: Newest" };
+  let commentsOrdering = commentsOrderingItems.find(item => item.value === "-created_at");
 
   let params: PostCommentsFilters;
   $: params = {
@@ -62,52 +63,62 @@
   }
 </script>
 
-<Card class="mb-3">
-  <CardHeader>
-    <CardTitle>
-      <div class="d-flex align-items-center">
-        <div class="flex-grow-1">
-          {#if $commentsQuery.isLoading}
-            <p>Loading...</p>
-          {:else if $commentsQuery.isSuccess}
-            <p>Comments ({$commentsQuery.data.pages[0].data.count}):</p>
-          {/if}
-        </div>
-
-        <div style="min-width: 200px">
-          <Select
-            id="comments_ordering"
-            name="comments_ordering"
-            showChevron
-            clearable={false}
-            searchable={false}
-            items={commentsOrderingItems}
-            bind:value={commentsOrdering}
-          />
-        </div>
+<Card class="shadow-sm mb-3">
+  <CardHeader class="bg-white">
+    <div class="d-flex align-items-center pt-1">
+      <div class="flex-grow-1">
+        {#if $commentsQuery.isLoading}
+          <p class="placeholder placeholder-glow"></p>
+        {:else if $commentsQuery.isSuccess}
+          <CardTitle>
+            Comments ({$commentsQuery.data.pages[0].data.count}):
+          </CardTitle>
+        {/if}
       </div>
-    </CardTitle>
+
+      <div style="min-width: 200px">
+        <Select
+          id="comments_ordering"
+          name="comments_ordering"
+          showChevron
+          clearable={false}
+          searchable={false}
+          items={commentsOrderingItems}
+          bind:value={commentsOrdering}
+        />
+      </div>
+    </div>
   </CardHeader>
 
   <CardBody class="p-2">
     {#if $commentsQuery.isLoading}
-      <p>Loading comments...</p>
+      <div class="d-flex flex-column gap-2 p-2">
+        {#each Array(2) as _}
+          <CommentListItemSkeleton/>
+        {/each}
+      </div>
     {:else if $commentsQuery.isError}
-      <p>Something went wrong...</p>
+      <p class="text-danger fw-bold">Something went wrong...</p>
     {:else if $commentsQuery.isSuccess}
-      {#each comments as comment}
-        <CommentListItem {comment}/>
-      {/each}
+      <div class="d-flex flex-column gap-2 p-2">
+        {#each comments as comment}
+          <CommentListItem {comment}/>
+        {/each}
+      </div>
     {/if}
 
     {#if $commentsQuery.hasNextPage}
-      <button class="btn btn-outline-primary" on:click={() => $commentsQuery.fetchNextPage()}>
+      <button
+        id="comments-load-more"
+        class="btn btn-outline-primary"
+        on:click={() => $commentsQuery.fetchNextPage()}
+      >
         Load more...
       </button>
     {/if}
 
     {#if $commentsQuery.isFetchingNextPage}
-      Loading more comments...
+      <p class="fw-bold">Loading more comments...</p>
     {/if}
 
     <CommentAddForm
