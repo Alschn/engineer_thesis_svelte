@@ -9,6 +9,7 @@
   import PostsApi from "../../api/posts";
   import ProfilesApi from "../../api/profiles";
   import defaultAvatar from "../../assets/avatar.jpg";
+  import PostListItem from "../../components/posts/PostListItem.svelte";
   import { auth } from "../../stores/auth";
 
   const username = currentRoute.namedParams.username;
@@ -130,9 +131,13 @@
 </script>
 
 {#if $query.isLoading}
-  <p>Loading...</p>
+  <div class="d-flex justify-content-center align-items-center" style="height: 100px">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 {:else if $query.isError}
-  <p>Something went wrong...</p>
+  <p class="text-danger fw-bold">Something went wrong...</p>
 {:else if $query.isSuccess && profile}
   <div class="row g-1">
     <div class="col-12">
@@ -147,9 +152,7 @@
         <h1>{profile.username}</h1>
         <h3>{profile.email}</h3>
         <p class="text-muted">{profile.bio || ""}</p>
-        {#if isCurrentUser}
-          <a href="#" class="btn btn-primary">Edit profile</a>
-        {:else}
+        {#if !isCurrentUser}
           {#if profile.is_followed_by_you}
             <button
               class="btn btn-danger"
@@ -215,7 +218,11 @@
       <div class="col-12">
         <div class="card p-4">
           <h3>Favourite Posts ({profile.favourites_count}):</h3>
-          TODO:
+          <div class="d-flex flex-column gap-2" style="height: 300px; overflow-y: auto">
+            {#each favouritePosts as post (post.id)}
+              <a href="/posts/{post.slug}">{post.slug}</a>
+            {/each}
+          </div>
         </div>
       </div>
     {/if}
@@ -223,7 +230,11 @@
     <div class="col-12">
       <div class="card p-4">
         <h3>Created Posts ({profile.posts_count}):</h3>
-        TODO:
+        <div class="d-flex flex-column gap-2" style="height: 300px; overflow-y: auto">
+          {#each createdPosts as post (post.id)}
+            <a href="/posts/{post.slug}">{post.slug}</a>
+          {/each}
+        </div>
       </div>
     </div>
   </div>
