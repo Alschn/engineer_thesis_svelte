@@ -70,7 +70,7 @@
     <label for="password1" class="form-label">Password</label>
     <input
       id="password1"
-      name="password"
+      name="password1"
       class="form-control"
       type="password"
       placeholder="Enter password"
@@ -84,10 +84,10 @@
     <label for="password2" class="form-label">Confirm password</label>
     <input
       id="password2"
-      name="password"
+      name="password2"
       class="form-control"
       type="password"
-      placeholder="Enter password"
+      placeholder="Confirm password"
       required
       minlength="6"
       bind:value={password2}
