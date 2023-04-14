@@ -189,6 +189,7 @@
               id="post-unfavourite"
               class="btn btn-outline-danger"
               on:click={() => $unfavouriteMutation.mutate()}
+              disabled={$unfavouriteMutation.isLoading}
             >
               Remove from favourites
             </button>
@@ -197,6 +198,7 @@
               id="post-favourite"
               class="btn btn-outline-primary"
               on:click={() => $favouriteMutation.mutate()}
+              disabled={$favouriteMutation.isLoading}
             >
               Add to favourites
             </button>

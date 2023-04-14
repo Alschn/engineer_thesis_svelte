@@ -70,9 +70,7 @@
         {#if $commentsQuery.isLoading}
           <p class="placeholder placeholder-glow"></p>
         {:else if $commentsQuery.isSuccess}
-          <CardTitle>
-            Comments ({$commentsQuery.data.pages[0].data.count}):
-          </CardTitle>
+          <CardTitle>Comments ({totalComments}):</CardTitle>
         {/if}
       </div>
 
@@ -112,6 +110,7 @@
         id="comments-load-more"
         class="btn btn-outline-primary"
         on:click={() => $commentsQuery.fetchNextPage()}
+        disabled={$commentsQuery.isFetchingNextPage}
       >
         Load more...
       </button>
