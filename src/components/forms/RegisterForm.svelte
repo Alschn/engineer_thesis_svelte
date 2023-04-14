@@ -99,7 +99,7 @@
   </div>
 
   <div class="d-flex justify-content-center align-items-center mt-4">
-    <button class="btn btn-primary" type="submit">
+    <button class="btn btn-primary" type="submit" disabled={$mutation.isLoading}>
       Submit
     </button>
   </div>

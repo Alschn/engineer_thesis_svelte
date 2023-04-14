@@ -43,7 +43,7 @@
     <p class="fs-5">This action is irreversible!</p>
   </ModalBody>
   <ModalFooter>
-    <Button color="danger" on:click={$deleteMutation.mutate}>Delete</Button>
+    <Button color="danger" on:click={() => $deleteMutation.mutate()}>Delete</Button>
     <Button color="secondary" on:click={toggle}>Cancel</Button>
   </ModalFooter>
 </Modal>

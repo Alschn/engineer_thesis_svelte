@@ -1,6 +1,5 @@
 <script lang="ts">
   import { createQuery } from "@tanstack/svelte-query";
-  import { LightPaginationNav } from "svelte-paginate";
   import type { CurrentRoute } from "svelte-router-spa/types/components/route";
   import Select from "svelte-select";
   import ProfilesApi, { type ProfilesFilters } from "../../api/profiles";
@@ -76,23 +75,25 @@
     </div>
   </header>
 
-  <div>
-    {#if $query.isLoading}
-      <p>Loading...</p>
-    {:else if $query.isError}
-      <p>Something went wrong...</p>
-    {:else if $query.isSuccess}
-      <div class="row row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
-        {#each profiles as profile}
-          <div class="gy-3">
-            <ProfileListItem {profile}/>
-          </div>
-        {:else}
-          <p>No profiles found.</p>
-        {/each}
+  {#if $query.isLoading}
+    <div class="d-flex justify-content-center align-items-center" style="height: 100px">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-    {/if}
-  </div>
+    </div>
+  {:else if $query.isError}
+    <p class="text-danger fw-bold">Something went wrong...</p>
+  {:else if $query.isSuccess}
+    <section class="row row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
+      {#each profiles as profile (profile.id)}
+        <div class="gy-3">
+          <ProfileListItem {profile}/>
+        </div>
+      {:else}
+        <p class="fw-bold">No profiles found.</p>
+      {/each}
+    </section>
+  {/if}
 
   {#if total}
     <nav class="card-footer p-0">

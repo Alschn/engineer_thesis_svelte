@@ -4,8 +4,8 @@
   import { toasts } from "svelte-toasts";
   import ProfilesApi from "../../api/profiles";
   import type { ListProfile } from "../../api/types";
-  import { auth } from "../../stores/auth.js";
   import defaultAvatar from "../../assets/avatar.jpg";
+  import { auth } from "../../stores/auth.js";
 
   export let profile: ListProfile;
 
@@ -14,11 +14,11 @@
   const followMutation = createMutation({
     mutationFn: () => ProfilesApi.follow(profile.username),
     onSuccess: () => {
-      client.refetchQueries(['profiles']);
+      client.refetchQueries(["profiles"]);
       toasts.success({
         title: "Success",
         description: `You are now following user: ${profile.username}`,
-        duration: 2000
+        duration: 2000,
       });
     },
     onError: (error) => {
@@ -34,17 +34,17 @@
         title: "Something went wrong...",
         description: "Please try again later.",
       });
-    }
+    },
   });
 
   const unfollowMutation = createMutation({
     mutationFn: () => ProfilesApi.unfollow(profile.username),
     onSuccess: () => {
-      client.refetchQueries(['profiles']);
+      client.refetchQueries(["profiles"]);
       toasts.success({
         title: "Success",
         description: `You are no longer following user: ${profile.username}`,
-        duration: 2000
+        duration: 2000,
       });
     },
     onError: (error) => {
@@ -60,14 +60,15 @@
         title: "Something went wrong...",
         description: "Please try again later.",
       });
-    }
+    },
   });
 </script>
 
 <div class="card d-flex flex-column align-items-center gap-2 p-2">
   <img
     class="rounded-circle"
-    width="50" height="50"
+    width="50"
+    height="50"
     src={profile.image || defaultAvatar}
     alt=""
   />
@@ -78,15 +79,15 @@
         <button
           class="btn btn-sm btn-outline-danger"
           disabled={$unfollowMutation.isLoading}
-          on:click={$unfollowMutation.mutate}
+          on:click={() => $unfollowMutation.mutate()}
         >
           Unfollow {profile.username}
         </button>
-      {:else }
+      {:else}
         <button
           class="btn btn-sm btn-outline-primary"
           disabled={$followMutation.isLoading}
-          on:click={$followMutation.mutate}
+          on:click={() => $followMutation.mutate()}
         >
           Follow {profile.username}
         </button>

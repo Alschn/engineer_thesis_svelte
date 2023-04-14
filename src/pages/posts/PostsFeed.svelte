@@ -4,6 +4,7 @@
   import Select from "svelte-select";
   import PostsApi, { type PostsFilters } from "../../api/posts";
   import PostListItem from "../../components/posts/PostListItem.svelte";
+  import { getNextPageParam } from "../../utils/tanstack-query";
 
   export let currentRoute: CurrentRoute;
 
@@ -12,9 +13,9 @@
     { value: "-created_at", label: "Created (descending)" },
     { value: "updated_at", label: "Updated (ascending)" },
     { value: "-updated_at", label: "Updated (descending)" },
-  ];
+  ] as const;
 
-  let ordering = { value: "-created_at", label: "Created (descending)" };
+  let ordering = orderingOptions.find((o) => o.value === "-created_at");
   let search = "";
 
   let timer;
@@ -38,16 +39,7 @@
       page: pageParam,
       page_size: 10
     } as PostsFilters),
-    getNextPageParam: (lastPage) => {
-      const nextPage: string | null = lastPage.data.next;
-      if (nextPage && nextPage.includes("page=")) {
-        const url = new URL(nextPage);
-        const page = url.searchParams.get("page");
-        const parsed = parseInt(page);
-        return !isNaN(parsed) ? parsed : undefined;
-      }
-      return undefined;
-    }
+    getNextPageParam: getNextPageParam
   });
 
   function handleScroll() {
@@ -59,7 +51,7 @@
     }
     if (!$query.hasNextPage || $query.isFetchingNextPage) return;
     $query.fetchNextPage();
-  };
+  }
 
   $: posts = $query.data?.pages.flatMap(page => page.data.results) ?? [];
 </script>
@@ -97,15 +89,19 @@
 </div>
 
 {#if $query.isLoading}
-  <p>Loading...</p>
+  <div class="d-flex justify-content-center align-items-center" style="height: 100px">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 {:else if $query.isError}
-  <p>Something went wrong...</p>
+  <p class="text-danger fw-bold">Something went wrong...</p>
 {:else if $query.isSuccess}
-  <div class="d-flex flex-column gap-3">
-    {#each posts as post}
+  <section class="d-flex flex-column gap-4">
+    {#each posts as post (post.id)}
       <PostListItem {post}/>
     {/each}
-  </div>
+  </section>
   {#if $query.isFetchingNextPage}
     <h4 class="my-2">Loading more...</h4>
   {/if}
