@@ -43,7 +43,7 @@
   }
 </script>
 
-<Modal {isOpen} {toggle}>
+<Modal {isOpen} {toggle} {...$$restProps}>
   <ModalHeader {toggle}>Post Filters</ModalHeader>
   <ModalBody>
     <div class="mb-3">

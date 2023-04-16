@@ -1,8 +1,9 @@
 <script lang="ts">
-  export let currentRoute;
-
   import { Route } from "svelte-router-spa";
   import Navbar from "../navbar/Navbar.svelte";
+  import type { CurrentRoute } from "svelte-router-spa/types/components/route";
+
+  export let currentRoute: CurrentRoute;
 </script>
 
 <Navbar/>

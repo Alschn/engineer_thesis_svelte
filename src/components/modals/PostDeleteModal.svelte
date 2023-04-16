@@ -36,7 +36,7 @@
   });
 </script>
 
-<Modal {isOpen} {toggle}>
+<Modal {isOpen} {toggle} {...$$restProps}>
   <ModalHeader {toggle}>Delete Post {postSlug}</ModalHeader>
   <ModalBody>
     <p class="fs-5">Are you sure you want to delete this post?</p>
