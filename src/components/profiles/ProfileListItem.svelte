@@ -13,8 +13,8 @@
 
   const followMutation = createMutation({
     mutationFn: () => ProfilesApi.follow(profile.username),
-    onSuccess: () => {
-      client.refetchQueries(["profiles"]);
+    onSuccess: async () => {
+      await client.refetchQueries(["profiles"]);
       toasts.success({
         title: "Success",
         description: `You are now following user: ${profile.username}`,
@@ -39,8 +39,8 @@
 
   const unfollowMutation = createMutation({
     mutationFn: () => ProfilesApi.unfollow(profile.username),
-    onSuccess: () => {
-      client.refetchQueries(["profiles"]);
+    onSuccess: async () => {
+      await client.refetchQueries(["profiles"]);
       toasts.success({
         title: "Success",
         description: `You are no longer following user: ${profile.username}`,
@@ -74,7 +74,7 @@
   />
   <a href="/profiles/{profile.username}">{profile.username}</a>
   <div>
-    {#if profile.username !== $auth.user.username}
+    {#if profile.username !== $auth.user?.username}
       {#if profile.is_followed_by_you}
         <button
           class="btn btn-sm btn-outline-danger"

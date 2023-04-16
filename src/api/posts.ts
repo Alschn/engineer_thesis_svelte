@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig } from "axios";
 import AxiosClient from "./AxiosClient";
-import type { ListPost, Post, PromisePaginatedResponse, PromiseResponse } from "./types";
+import type { ListPost, Post, Comment, PromisePaginatedResponse, PromiseResponse } from "./types";
 
 export interface PostCreatePayload {
   title: string;

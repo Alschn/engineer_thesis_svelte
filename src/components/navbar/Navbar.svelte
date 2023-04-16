@@ -54,9 +54,9 @@
     </Nav>
     {#if $auth.isAuthenticated}
       <Dropdown isOpen={isOpenDropdown} toggle={() => (isOpenDropdown = !isOpenDropdown)}>
-        <DropdownToggle nav caret>{$auth.user.username}</DropdownToggle>
+        <DropdownToggle nav caret>{$auth.user?.username}</DropdownToggle>
         <DropdownMenu end>
-          <DropdownItem href="/profiles/{$auth.user.username}">Profile</DropdownItem>
+          <DropdownItem href="/profiles/{$auth.user?.username}">Profile</DropdownItem>
           <DropdownItem divider/>
           <DropdownItem on:click={logout}>Logout</DropdownItem>
         </DropdownMenu>

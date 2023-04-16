@@ -15,10 +15,10 @@
     { value: "-updated_at", label: "Updated (descending)" },
   ] as const;
 
-  let ordering = orderingOptions.find((o) => o.value === "-created_at");
+  let ordering = orderingOptions.find((o) => o.value === "-created_at")!;
   let search = "";
 
-  let timer;
+  let timer: number;
   const debounce = (value: string, delay: number = 750) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -35,14 +35,14 @@
   $: query = createInfiniteQuery({
     queryKey: ["posts-feed", queryParams],
     queryFn: ({ queryKey, pageParam = 1 }) => PostsApi.getFeed({
-      ...queryKey[1],
+      ...queryKey[1] as PostsFilters,
       page: pageParam,
       page_size: 10
     } as PostsFilters),
     getNextPageParam: getNextPageParam
   });
 
-  function handleScroll() {
+  async function handleScroll() {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
       document.documentElement.offsetHeight
@@ -50,7 +50,7 @@
       return;
     }
     if (!$query.hasNextPage || $query.isFetchingNextPage) return;
-    $query.fetchNextPage();
+    await $query.fetchNextPage();
   }
 
   $: posts = $query.data?.pages.flatMap(page => page.data.results) ?? [];

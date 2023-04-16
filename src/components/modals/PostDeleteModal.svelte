@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createMutation, useQueryClient } from "@tanstack/svelte-query";
+  import { createMutation } from "@tanstack/svelte-query";
   import { AxiosError } from "axios";
   import { navigateTo } from "svelte-router-spa";
   import { toasts } from "svelte-toasts";
@@ -9,8 +9,6 @@
   export let isOpen: boolean;
   export let toggle: () => void;
   export let postSlug: string;
-
-  const client = useQueryClient();
 
   const deleteMutation = createMutation({
     mutationFn: () => PostsApi.deletePost(postSlug),

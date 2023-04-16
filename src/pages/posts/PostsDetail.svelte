@@ -24,7 +24,7 @@
     queryKey: ["posts", postSlug],
     queryFn: ({ queryKey }) => PostsApi.getPost(queryKey[1] as string),
     onError: (error) => {
-      if (error.response?.status === 404) {
+      if (error instanceof AxiosError && error.response?.status === 404) {
         toasts.error({
           title: "Post not found",
           description: "The post you are looking for does not exist.",
@@ -33,7 +33,7 @@
       }
     },
     retry: (failureCount, error) => {
-      return error?.response?.status !== 404;
+      return error instanceof AxiosError && error.response?.status !== 404;
     }
   });
 
@@ -125,7 +125,7 @@
     $updatePostMutation.mutate({ body: newBody });
   }
 
-  function handleOpenDeletePostModal(e) {
+  function handleOpenDeletePostModal() {
     isOpenDeletePostModal = true;
   }
 </script>
@@ -139,7 +139,7 @@
 {:else if $query.isError}
   <p class="text-danger fw-bold">Something went wrong...</p>
 {:else if $query.isSuccess && post}
-  {@const isCurrentUser = $auth.isAuthenticated && $auth.user.username === post.author.username}
+  {@const isCurrentUser = $auth.isAuthenticated && $auth.user?.username === post.author.username}
 
   <Card class="shadow-sm rounded mb-4">
     <CardHeader class="bg-white p-0 pb-3">
