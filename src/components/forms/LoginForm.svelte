@@ -36,7 +36,7 @@
     },
   });
 
-  const handleSubmit = (e) => $mutation.mutate({ email, password });
+  const handleSubmit = () => $mutation.mutate({ email, password });
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>

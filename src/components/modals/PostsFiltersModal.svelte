@@ -43,7 +43,7 @@
   }
 </script>
 
-<Modal {isOpen} {toggle}>
+<Modal {isOpen} {toggle} {...$$restProps}>
   <ModalHeader {toggle}>Post Filters</ModalHeader>
   <ModalBody>
     <div class="mb-3">
@@ -78,7 +78,7 @@
         id="author"
         name="author"
         placeholder="Choose authors..."
-        debouncedWait={1500}
+        debounceWait={1500}
         loadOptions={loadAuthors}
         clearable
         multiple
@@ -92,7 +92,7 @@
         id="tags"
         name="tags"
         placeholder="Choose tags..."
-        debouncedWait={1500}
+        debounceWait={1500}
         loadOptions={loadTags}
         clearable
         multiple

@@ -19,7 +19,7 @@
     bodyDraft = e.detail.value;
   }
 
-  function handleSave(e: CustomEvent) {
+  function handleSave() {
     handlePostUpdate(bodyDraft);
   }
 </script>

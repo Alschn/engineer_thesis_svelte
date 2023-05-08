@@ -19,7 +19,7 @@
   let pageSize = { value: 20, label: 20 };
   let search = "";
 
-  let timer;
+  let timer: number;
   const debounce = (value: string, delay: number = 750) => {
     clearTimeout(timer);
     timer = setTimeout(() => {

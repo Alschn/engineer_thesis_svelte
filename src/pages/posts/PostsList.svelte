@@ -23,11 +23,11 @@
   ] as const;
 
   let page = 1;
-  let pageSize = pageSizes.find(s => s.value === 50);
-  let ordering = orderingOptions.find(o => o.value === "-created_at");
+  let pageSize = pageSizes.find(s => s.value === 50)!;
+  let ordering = orderingOptions.find(o => o.value === "-created_at")!;
   let search = "";
 
-  let timer;
+  let timer: number;
   const debounce = (value: string, delay: number = 750) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -84,8 +84,6 @@
       appliedFilters = {};
     }
   }
-
-  let isLoading = true;
 </script>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -149,7 +147,7 @@
   {#if $query.isLoading}
     {#each Array(6) as _, i}
       <div class="col col-md-6 col-xl-4">
-        <PostListItemSkeleton />
+        <PostListItemSkeleton/>
       </div>
     {/each}
   {:else if $query.isError}

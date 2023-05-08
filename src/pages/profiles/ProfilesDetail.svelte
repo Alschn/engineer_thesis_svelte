@@ -9,7 +9,6 @@
   import PostsApi from "../../api/posts";
   import ProfilesApi from "../../api/profiles";
   import defaultAvatar from "../../assets/avatar.jpg";
-  import PostListItem from "../../components/posts/PostListItem.svelte";
   import { auth } from "../../stores/auth";
 
   const username = currentRoute.namedParams.username;
@@ -30,7 +29,7 @@
       }
     },
     retry: (failureCount, error) => {
-      return error.response?.status !== 404;
+      return error instanceof AxiosError && error.response?.status !== 404;
     }
   });
 

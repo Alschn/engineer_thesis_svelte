@@ -10,6 +10,7 @@
   {totalItems}
   {pageSize}
   {currentPage}
+  {...$$restProps}
   showStepOptions
   limit={1}
   on:setPage

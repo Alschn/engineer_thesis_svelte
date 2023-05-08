@@ -18,7 +18,7 @@
     { label: "Sort by: Oldest", value: "created_at" },
   ] as const;
 
-  let commentsOrdering = commentsOrderingItems.find(item => item.value === "-created_at");
+  let commentsOrdering = commentsOrderingItems.find(item => item.value === "-created_at")!;
 
   let params: PostCommentsFilters;
   $: params = {
@@ -41,14 +41,14 @@
 
   const addCommentMutation = createMutation({
     mutationFn: (body: string) => PostsApi.addComment(postSlug, body),
-    onSuccess: () => {
+    onSuccess: async () => {
       toasts.success("Comment added");
       commentBody = "";
       commentSubmitLocked = true;
       setTimeout(() => {
         commentSubmitLocked = false;
       }, 1000);
-      $commentsQuery.refetch();
+      await $commentsQuery.refetch();
     },
     onError: (error) => {
       toasts.error({
@@ -58,9 +58,7 @@
     }
   });
 
-  function handleCommentSubmit(e) {
-    $addCommentMutation.mutate(commentBody);
-  }
+  const handleCommentSubmit = () => $addCommentMutation.mutate(commentBody);
 </script>
 
 <Card class="shadow-sm mb-3">
@@ -70,9 +68,7 @@
         {#if $commentsQuery.isLoading}
           <p class="placeholder placeholder-glow"></p>
         {:else if $commentsQuery.isSuccess}
-          <CardTitle>
-            Comments ({$commentsQuery.data.pages[0].data.count}):
-          </CardTitle>
+          <CardTitle>Comments ({totalComments}):</CardTitle>
         {/if}
       </div>
 
@@ -112,6 +108,7 @@
         id="comments-load-more"
         class="btn btn-outline-primary"
         on:click={() => $commentsQuery.fetchNextPage()}
+        disabled={$commentsQuery.isFetchingNextPage}
       >
         Load more...
       </button>

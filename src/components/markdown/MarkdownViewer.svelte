@@ -5,4 +5,8 @@
   export let value: string;
 </script>
 
-<Viewer {value} {plugins}/>
+<Viewer
+  {value}
+  {plugins}
+  {...$$restProps}
+/>

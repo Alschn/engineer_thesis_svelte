@@ -13,27 +13,32 @@
     NavItem,
     NavLink,
   } from "sveltestrap";
+  import AuthApi from "../../api/auth";
   import { auth } from "../../stores/auth";
   import { token } from "../../stores/auth.js";
+
+  export let brand: string = "Thesis - Svelte";
 
   let isOpen = false;
   let isOpenDropdown = false;
 
-  function handleUpdate(event) {
+  function handleUpdate(event: CustomEvent<{ isOpen: boolean }>) {
     isOpen = event.detail.isOpen;
   }
 
   function logout() {
-    token.set(null);
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-    navigateTo(`auth/login`);
+    AuthApi.logout().finally(() => {
+      token.set(null);
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      navigateTo(`auth/login`);
+    });
   }
 </script>
 
 
-<Navbar class="container-md" expand="md">
-  <NavbarBrand href="/">Thesis - Svelte</NavbarBrand>
+<Navbar class="container-md" expand="md" {...$$restProps}>
+  <NavbarBrand href="/">{brand}</NavbarBrand>
   <NavbarToggler on:click={() => (isOpen = !isOpen)}/>
   <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
     <Nav navbar class="me-auto">
@@ -49,9 +54,9 @@
     </Nav>
     {#if $auth.isAuthenticated}
       <Dropdown isOpen={isOpenDropdown} toggle={() => (isOpenDropdown = !isOpenDropdown)}>
-        <DropdownToggle nav caret>{$auth.user.username}</DropdownToggle>
+        <DropdownToggle nav caret>{$auth.user?.username}</DropdownToggle>
         <DropdownMenu end>
-          <DropdownItem href="/profiles/{$auth.user.username}">Profile</DropdownItem>
+          <DropdownItem href="/profiles/{$auth.user?.username}">Profile</DropdownItem>
           <DropdownItem divider/>
           <DropdownItem on:click={logout}>Logout</DropdownItem>
         </DropdownMenu>

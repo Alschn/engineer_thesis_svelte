@@ -7,13 +7,14 @@
   import { toasts } from "svelte-toasts";
   import PostsApi, { type PostCreatePayload } from "../../api/posts";
   import TagsApi from "../../api/tags";
+  import type { Tag } from "../../api/types";
   import MarkdownEditor from "../../components/markdown/MarkdownEditor.svelte";
   import { fileToBase64String } from "../../utils/fileUpload";
 
   export let currentRoute: CurrentRoute;
 
   let title = "", description = "", body = "";
-  let tags = [];
+  let tags: Tag[] = [];
   let isPublished = true;
   let thumbnails: FileList;
 
@@ -50,7 +51,7 @@
     body = e.detail.value;
   }
 
-  async function handleSubmit(e: CustomEvent) {
+  async function handleSubmit() {
     if (!body) {
       toasts.error("Body is required!");
       return;
@@ -101,7 +102,7 @@
       id="tags"
       name="tags"
       placeholder="Choose tags..."
-      debouncedWait={1500}
+      debounceWait={1500}
       itemId="tag"
       label="tag"
       clearable

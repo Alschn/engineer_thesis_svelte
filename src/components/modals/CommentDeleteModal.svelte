@@ -14,8 +14,8 @@
 
   const deleteMutation = createMutation({
     mutationFn: () => PostsApi.deleteComment(postSlug, commentId),
-    onSuccess: () => {
-      client.refetchQueries(["posts", postSlug, "comments"]);
+    onSuccess: async () => {
+      await client.refetchQueries(["posts", postSlug, "comments"]);
       toasts.success("Comment deleted");
       toggle();
     },
@@ -36,7 +36,7 @@
   });
 </script>
 
-<Modal {isOpen} {toggle}>
+<Modal {isOpen} {toggle} {...$$restProps}>
   <ModalHeader {toggle}>Delete Comment</ModalHeader>
   <ModalBody>
     <p class="fs-5">Are you sure you want to delete this comment?</p>
