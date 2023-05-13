@@ -132,6 +132,7 @@
     <MarkdownEditor
       id="body"
       value={body}
+      placeholder="Enter post's body"
       on:change={handleBodyChange}
     />
   </div>
