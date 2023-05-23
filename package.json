@@ -32,6 +32,7 @@
     "jsdom": "^21.1.0",
     "jwt-decode": "^3.1.2",
     "msw": "^1.1.0",
+    "playwright-msw": "^2.2.1",
     "svelte": "^3.55.1",
     "svelte-check": "^2.10.3",
     "svelte-paginate": "^0.1.0",
