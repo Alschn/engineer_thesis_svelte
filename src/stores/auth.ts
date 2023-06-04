@@ -9,23 +9,22 @@ interface JWTContent {
   iat: number,
 }
 
+function retrieveUser(token: string | null) {
+  if (!token) return null;
+  try {
+    return jwtDecode<JWTContent>(token);
+  } catch (e) {
+    return null;
+  }
+}
+
 export const token = writable<string | null>(localStorage.getItem("access"));
 
 export const auth = derived(
   token,
-  ($token) => {
-    let tokenNonEmpty = !!$token;
-    let tokenData: JWTContent | null;
-
-    try {
-      tokenData = tokenNonEmpty ? jwtDecode<JWTContent>($token!) : null;
-    } catch (e) {
-      tokenData = null;
-    }
-
-    return {
-      isAuthenticated: tokenNonEmpty,
-      user: tokenData
-    };
+  (value) => {
+    const user = retrieveUser(value);
+    const isAuthenticated = !!user;
+    return { isAuthenticated, user };
   }
 );
