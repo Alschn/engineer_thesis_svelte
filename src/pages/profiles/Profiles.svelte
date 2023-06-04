@@ -85,7 +85,7 @@
     <p class="text-danger fw-bold">Something went wrong...</p>
   {:else if $query.isSuccess}
     <section class="row row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
-      {#each profiles as profile (profile.id)}
+      {#each profiles as profile (`profile-${profile.id}`)}
         <div class="gy-3">
           <ProfileListItem {profile}/>
         </div>

@@ -97,7 +97,7 @@
       <p class="text-danger fw-bold">Something went wrong...</p>
     {:else if $commentsQuery.isSuccess}
       <div class="d-flex flex-column gap-2 p-2">
-        {#each comments as comment}
+        {#each comments as comment (`comment-${comment.id}`)}
           <CommentListItem {comment}/>
         {/each}
       </div>

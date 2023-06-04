@@ -98,7 +98,7 @@
   <p class="text-danger fw-bold">Something went wrong...</p>
 {:else if $query.isSuccess}
   <section class="d-flex flex-column gap-4">
-    {#each posts as post (post.id)}
+    {#each posts as post (`post-${post.id}`)}
       <PostListItem {post}/>
     {/each}
   </section>

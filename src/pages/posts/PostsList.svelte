@@ -143,7 +143,7 @@
   </button>
 </div>
 
-<article class="row gy-4 mb-3">
+<section class="row gy-4 mb-3">
   {#if $query.isLoading}
     {#each Array(6) as _, i}
       <div class="col col-md-6 col-xl-4">
@@ -153,10 +153,10 @@
   {:else if $query.isError}
     <p class="text-danger fw-bold">Something went wrong...</p>
   {:else if $query.isSuccess}
-    {#each posts as post (post.id)}
-      <div class="col col-md-6 col-xl-4">
+    {#each posts as post (`post-${post.id}`)}
+      <article class="col col-md-6 col-xl-4">
         <PostListItem {post}/>
-      </div>
+      </article>
     {:else}
       <p class="fw-bold">No posts found...</p>
     {/each}
@@ -172,4 +172,4 @@
       </nav>
     {/if}
   {/if}
-</article>
+</section>

@@ -1,6 +1,16 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
+    /*
+      Typescript only works with aliases in playwright tests
+      https://playwright.dev/docs/test-typescript
+    */
+    "baseUrl": ".",
+    "paths": {
+      "@e2e/*": [
+        "src/tests/e2e/*"
+      ]
+    },
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -14,8 +24,17 @@
     "allowJs": true,
     "checkJs": true,
     "isolatedModules": true,
-    "strict": true,
+    "strict": true
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.svelte"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
