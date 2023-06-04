@@ -177,7 +177,7 @@
       <div class="card p-4">
         <h3>Followers ({profile.followers_count}):</h3>
         <div class="d-flex flex-column gap-2" style="height: 300px; overflow-y: auto">
-          {#each followers as follower (follower.id)}
+          {#each followers as follower (`follower-${follower.id}`)}
             <div class="d-flex align-items-center">
               <img
                 width="50" height="50"
@@ -197,7 +197,7 @@
       <div class="card p-4">
         <h3>Following ({profile.followed_count}):</h3>
         <div class="d-flex flex-column gap-2" style="height: 300px; overflow-y: auto">
-          {#each followed as followee (followee.id)}
+          {#each followed as followee (`followee-${followee.id}`)}
             <div class="d-flex align-items-center">
               <img
                 width="50" height="50"
@@ -218,7 +218,7 @@
         <div class="card p-4">
           <h3>Favourite Posts ({profile.favourites_count}):</h3>
           <div class="d-flex flex-column gap-2" style="height: 300px; overflow-y: auto">
-            {#each favouritePosts as post (post.id)}
+            {#each favouritePosts as post (`favourite-post-${post.id}`)}
               <a href="/posts/{post.slug}">{post.slug}</a>
             {/each}
           </div>
@@ -230,7 +230,7 @@
       <div class="card p-4">
         <h3>Created Posts ({profile.posts_count}):</h3>
         <div class="d-flex flex-column gap-2" style="height: 300px; overflow-y: auto">
-          {#each createdPosts as post (post.id)}
+          {#each createdPosts as post (`created-post-${post.id}`)}
             <a href="/posts/{post.slug}">{post.slug}</a>
           {/each}
         </div>

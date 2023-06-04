@@ -159,7 +159,7 @@
           </CardSubtitle>
           <div class="d-flex align-items-center gap-1 mb-3" style="font-size: 1.1em">
             <CardSubtitle class="fs-6">Tags:</CardSubtitle>
-            {#each post.tags as tag}
+            {#each post.tags as tag (`tag-${tag.id}`)}
               <TagBadge label={tag.tag} color={tag.color}/>
             {/each}
           </div>

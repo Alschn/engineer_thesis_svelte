@@ -153,7 +153,7 @@
   {:else if $query.isError}
     <p class="text-danger fw-bold">Something went wrong...</p>
   {:else if $query.isSuccess}
-    {#each posts as post (post.id)}
+    {#each posts as post (`post-${post.id}`)}
       <div class="col col-md-6 col-xl-4">
         <PostListItem {post}/>
       </div>

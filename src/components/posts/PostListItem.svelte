@@ -23,7 +23,7 @@
       createdAt={post.created_at}
     />
     <div class="d-flex gap-2 mt-2">
-      {#each post.tags as tag (tag.id)}
+      {#each post.tags as tag (`tag-${tag.id}`)}
         <TagBadge label={tag.tag} color={tag.color}/>
       {/each}
     </div>
